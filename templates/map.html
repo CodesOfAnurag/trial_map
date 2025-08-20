@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>Map with Properties</title>
     <style>
-        /* Make map fill full screen */
+        /* Reset and full-screen map */
         body, html {
             height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
         #map {
@@ -16,14 +17,13 @@
             width: 100%;
         }
 
-        /* Floating side pane */
+        /* Floating side pane (desktop default) */
         #sidepane {
             position: fixed;
             top: 0;
             right: 0;
             height: 100%;
-            width: 300px;
-            max-width: 80%; /* ✅ scales on small screens */
+            width: 320px;              /* fixed desktop width */
             background: rgba(255, 255, 255, 0.95);
             box-shadow: -2px 0 6px rgba(0,0,0,0.2);
             overflow-y: auto;
@@ -31,13 +31,17 @@
             z-index: 1000;
         }
 
-        /* Responsive for phones */
-        @media (max-width: 600px) {
+        /* On small / portrait screens → move pane to bottom */
+        @media (max-width: 768px), (orientation: portrait) {
             #sidepane {
-                width: 100%;
-                height: 40%;   /* bottom panel instead of side */
+                width: 100%;          /* take full width */
+                height: 40%;          /* bottom panel */
                 top: auto;
                 bottom: 0;
+                box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+            }
+            #map {
+                height: 60%;          /* remaining map area */
             }
         }
 
@@ -60,10 +64,4 @@
         {% for p in properties %}
         <div class="property">
             <strong>{{ p.name }}</strong><br>
-            Lat: {{ p.lat }}, Lon: {{ p.lon }}<br>
-            Price: {{ p.price }}
-        </div>
-        {% endfor %}
-    </div>
-</body>
-</html>
+            Lat: {{ p.la
