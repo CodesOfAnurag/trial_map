@@ -3,41 +3,20 @@
 #############################################################
 
 from flask import Flask, render_template
-import folium
-import pandas as pd
+from InteractivePropertyMap import InteractivePropertyMap
 import os
 
 app = Flask(__name__)
 
-# Example dataframe (replace with your data)
-data = pd.DataFrame({
-    "name": ["Property A", "Property B", "Property C"],
-    "lat": [12.9716, 12.9352, 12.9985],
-    "lon": [77.5946, 77.6245, 77.5671],
-    "price": [100000, 150000, 200000]
-})
-
-
 @app.route("/")
 def index():
-    # Center map around Bangalore
     start_coords = (12.9716, 77.5946)
-    m = folium.Map(location=start_coords, zoom_start=12)
+    map = InteractivePropertyMap(51.152634, 11.801068, 150)
+    map.filter_properties()
+    map.create_map()
 
-    # Add markers from dataframe
-    for _, row in data.iterrows():
-        folium.Marker(
-            location=[row["lat"], row["lon"]],
-            tooltip=f"{row['name']} - ${row['price']}"
-        ).add_to(m)
 
-    # Save map as HTML string
-    map_html = m._repr_html_()
-
-    # Pass dataframe records for side pane
-    properties = data.to_dict(orient="records")
-
-    return render_template("map.html", map_html=map_html, properties=properties)
+    return render_template("map.html", map_html=map.map_str)
 
 
 if __name__ == "__main__":
