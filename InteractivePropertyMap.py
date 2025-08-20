@@ -12,7 +12,9 @@ class InteractivePropertyMap:
         self.longitude = longitude
         self.user_location = (self.latitude, self.longitude)
         self.radius = radius
-        self.data = pd.read_excel('/Users/anurag/Desktop/work/traumbq_data/scraper_gelbeseiten/prototype/scraped_data.xlsx')
+        # self.data = pd.read_excel('/Users/anurag/Desktop/work/traumbq_data/scraper_gelbeseiten/prototype/scraped_data.xlsx')
+        self.data_path = 'https://docs.google.com/spreadsheets/d/1yxCgMX4f6v5ZB09DOUPDVdvd4Er9Ei8G2dFC2VDXbAA/export?format=csv&gid=750468955'
+        self.df = pd.read_csv(self.data_path)
         self.df = pd.DataFrame(self.data).dropna()
     
     def filter_properties(self):
