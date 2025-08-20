@@ -99,9 +99,9 @@ class InteractivePropertyMap:
             box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             z-index:9999;
             font-size:14px;">
-        <h4>Properties in radius</h4>
+        
         """
-
+        # <h4>Properties in radius</h4>
         if not self.filtered_df.empty:
             for i, row in self.filtered_df.iterrows():
                 side_html += f"""
@@ -118,8 +118,8 @@ class InteractivePropertyMap:
                 </div>
                 """
 
-        else:
-            side_html += "<p>No properties found in this area.</p>"
+        # else:
+        #     side_html += "<p>No properties found in this area.</p>"
         side_html += "</div>"
 
         flyto_js = f"""
