@@ -1,71 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Map with Side Pane</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: row;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <title>Map with Properties</title>
+    <style>
+        /* Make map fill full screen */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    .container {
-      display: flex;
-      flex: 1;
-    }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
 
-    .side-pane {
-      background: #f9f9f9;
-      padding: 1rem;
-      overflow-y: auto;
-      flex: 0 0 25%;
-      border-right: 1px solid #ddd;
-    }
+        /* Floating side pane */
+        #sidepane {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 300px;
+            max-width: 80%; /* ✅ scales on small screens */
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: -2px 0 6px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            padding: 15px;
+            z-index: 1000;
+        }
 
-    .map {
-      flex: 1;
-    }
+        /* Responsive for phones */
+        @media (max-width: 600px) {
+            #sidepane {
+                width: 100%;
+                height: 40%;   /* bottom panel instead of side */
+                top: auto;
+                bottom: 0;
+            }
+        }
 
-    @media (max-width: 900px) {
-      .side-pane {
-        flex: 0 0 35%;
-      }
-    }
+        h2 {
+            margin-top: 0;
+        }
 
-    @media (max-width: 600px) {
-      body {
-        flex-direction: column;
-      }
-      .side-pane {
-        flex: 0 0 auto;
-        height: 40%;
-        border-right: none;
-        border-top: 1px solid #ddd;
-      }
-      .map {
-        flex: 1;
-      }
-    }
-  </style>
+        .property {
+            margin-bottom: 12px;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="side-pane">
-      <h2>Properties</h2>
-      <ul>
+    <div id="map">{{ map_html|safe }}</div>
+
+    <div id="sidepane">
+        <h2>Properties</h2>
         {% for p in properties %}
-          <li><strong>{{ p.name }}</strong> – ${{ p.price }}</li>
+        <div class="property">
+            <strong>{{ p.name }}</strong><br>
+            Lat: {{ p.lat }}, Lon: {{ p.lon }}<br>
+            Price: {{ p.price }}
+        </div>
         {% endfor %}
-      </ul>
     </div>
-    <div class="map">
-      {{ map_html | safe }}
-    </div>
-  </div>
 </body>
 </html>
