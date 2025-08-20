@@ -13,7 +13,8 @@ def index():
     map = InteractivePropertyMap(51.152634, 11.801068, 150)
     map.filter_properties()
     map.create_map()
-    return render_template("map.html", map_html=map.map_str)
+    return render_template_string(map.map_str)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
