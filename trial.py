@@ -10,17 +10,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    start_coords = (12.9716, 77.5946)
     map = InteractivePropertyMap(51.152634, 11.801068, 150)
     map.filter_properties()
     map.create_map()
-
-
     return render_template("map.html", map_html=map.map_str)
 
-
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=True)
 
 
@@ -78,9 +74,5 @@ if __name__ == "__main__":
 #         return jsonify(data)
 #     return jsonify({"message": "No location saved"}), 404
 
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, debug=True)
 
 
