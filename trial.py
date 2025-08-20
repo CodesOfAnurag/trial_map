@@ -37,7 +37,7 @@ def index():
     # Pass dataframe records for side pane
     properties = data.to_dict(orient="records")
 
-    return render_template("index1.html", map_html=map_html, properties=properties)
+    return render_template("map.html", map_html=map_html, properties=properties)
 
 
 if __name__ == "__main__":
