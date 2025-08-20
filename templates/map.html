@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <title>Map with Properties</title>
     <style>
-        /* Reset and full-screen map */
         body, html {
             height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
-            overflow: hidden;
         }
 
         #map {
@@ -17,13 +15,9 @@
             width: 100%;
         }
 
-        /* Floating side pane (desktop default) */
+        /* Floating side/bottom pane */
         #sidepane {
             position: fixed;
-            top: 0;
-            right: 0;
-            height: 100%;
-            width: 320px;              /* fixed desktop width */
             background: rgba(255, 255, 255, 0.95);
             box-shadow: -2px 0 6px rgba(0,0,0,0.2);
             overflow-y: auto;
@@ -31,17 +25,24 @@
             z-index: 1000;
         }
 
-        /* On small / portrait screens → move pane to bottom */
+        /* Desktop → right side */
+        @media (min-width: 769px) {
+            #sidepane {
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 320px;
+            }
+        }
+
+        /* Mobile / portrait → bottom sheet */
         @media (max-width: 768px), (orientation: portrait) {
             #sidepane {
-                width: 100%;          /* take full width */
-                height: 40%;          /* bottom panel */
-                top: auto;
+                left: 0;
                 bottom: 0;
+                width: 100%;
+                height: 40%;
                 box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
-            }
-            #map {
-                height: 60%;          /* remaining map area */
             }
         }
 
