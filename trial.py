@@ -11,7 +11,7 @@ LOCATION_FILE = "user_location.json"
 def save_location(lat, lon):
     """Save location to local JSON file"""
     data = {"latitude": lat, "longitude": lon}
-    print(data)
+    print(f'{lat} {lon}', flush=True)
     with open(LOCATION_FILE, "w") as f:
         json.dump(data, f)
     return data
