@@ -33,11 +33,10 @@ class InteractivePropertyMap:
          
         self.filtered_df['distance'] = self.filtered_df.apply(lambda row : geodesic(self.user_location, (row['latitude'], row['longitude'])).km, axis = 1)
         self.filtered_df = self.filtered_df.sort_values(by = 'distance')
-        
-        
+    
     def create_map(self):
         m = folium.Map(location=self.user_location, zoom_start=9)
-        marker_cluster = MarkerCluster(name="markerCluster").add_to(m)
+        # marker_cluster = MarkerCluster(name="markerCluster").add_to(m)
 
         
         folium.Circle(
@@ -51,6 +50,7 @@ class InteractivePropertyMap:
 
 
         markers_js = []
+
         for i, row in self.filtered_df.iterrows():
             prop_loc = (row['latitude'], row['longitude'])
             distance = geodesic(self.user_location, prop_loc).km
@@ -71,14 +71,15 @@ class InteractivePropertyMap:
                 tooltip=row['name']
             )
             
-            marker.add_to(marker_cluster)
+            marker.add_to(m)
 
             markers_js.append(f"""
             window.markers["marker_{i}"] = L.marker([{row['latitude']}, {row['longitude']}])
                 .bindPopup({repr(tooltip_text)})
-                .addTo(window.markerCluster);
+                .addTo(window.{m.get_name()});
             """)
             
+        
         all_markers_js = f"""
         <script>
         window.onload = function() {{
@@ -100,9 +101,9 @@ class InteractivePropertyMap:
             box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             z-index:9999;
             font-size:14px;">
-        
+        <h4>Properties in radius</h4>
         """
-        # <h4>Properties in radius</h4>
+
         if not self.filtered_df.empty:
             for i, row in self.filtered_df.iterrows():
                 side_html += f"""
@@ -119,8 +120,8 @@ class InteractivePropertyMap:
                 </div>
                 """
 
-        # else:
-        #     side_html += "<p>No properties found in this area.</p>"
+        else:
+            side_html += "<p>No properties found in this area.</p>"
         side_html += "</div>"
 
         flyto_js = f"""
@@ -155,7 +156,6 @@ class InteractivePropertyMap:
         ).add_to(m)
 
         self.map_str = m._repr_html_()
-
 
 if __name__ == '__main__':
     map = InteractivePropertyMap(51.152634, 11.801068, 150)
