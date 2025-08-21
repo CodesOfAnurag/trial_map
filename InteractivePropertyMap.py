@@ -62,6 +62,7 @@ class InteractivePropertyMap:
                 <b>Longitude:</b> {row['longitude']}<br>
                 <b>Distance:</b> {distance:.2f} km <br>
                 <b>Location:</b> <a href = 'https://maps.google.com/?q={row['latitude']},{row['longitude']}' target="_blank">View on Google Maps</a><br>
+                <b>Route:</b> <a href = f'https://www.google.com/maps/dir/?api=1&origin={self.user_location[0]},{self.user_location[0]}&destination={row['latitude']},{row['longitude']}&travelmode=driving'  target="_blank">View Route on Google Maps</a><br>
             </div>
             """
 
