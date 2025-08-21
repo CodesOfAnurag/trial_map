@@ -37,7 +37,7 @@ class InteractivePropertyMap:
         
     def create_map(self):
         m = folium.Map(location=self.user_location, zoom_start=9)
-        marker_cluster = MarkerCluster().add_to(m)
+        marker_cluster = MarkerCluster(name="markerCluster").add_to(m)
 
         
         folium.Circle(
@@ -76,7 +76,7 @@ class InteractivePropertyMap:
             markers_js.append(f"""
             window.markers["marker_{i}"] = L.marker([{row['latitude']}, {row['longitude']}])
                 .bindPopup({repr(tooltip_text)})
-                .addTo(window.{m.get_name()});
+                .addTo(window.markerCluster);
             """)
             
         all_markers_js = f"""
